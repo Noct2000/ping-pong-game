@@ -5,13 +5,18 @@ import random
 class PlayScene:
     def __init__(self, display):
         self.display = display
+        self.winner = {"name": "", "score": 0}
 
-    def show(self):
+    def show(self, max_score, is_exited):
+        # Check exit menu option
+        if is_exited:
+            return
+
         # Set up window
         width = 800
         height = 600
         window = self.display.set_mode((width, height))
-        pygame.display.set_caption("Ping-Pong Game")
+        self.display.set_caption("Ping-Pong Game")
 
         # Set up clock
         clock = pygame.time.Clock()
@@ -79,16 +84,25 @@ class PlayScene:
                 ball_speed_y *= -1
             if ball_x <= 0:
                 right_score += 1
+                if right_score - max_score == 0:
+                    self.winner["name"] = "right player"
+                    self.winner["score"] = right_score
+                    return
                 ball_x = (width - ball_width) // 2
                 ball_y = (height - ball_height) // 2
                 ball_speed_x = random.choice([2, 2, 2, 2, -2, -2, -2, -2])
                 ball_speed_y = random.choice([2, 2, 2, 2, -2, -2, -2, -2])
             if ball_x + ball_width >= width:
                 left_score += 1
+                if left_score - max_score == 0:
+                    self.winner["name"] = "left player"
+                    self.winner["score"] = left_score
+                    return
                 ball_x = (width - ball_width) // 2
                 ball_y = (height - ball_height) // 2
                 ball_speed_x = random.choice([2, 2, 2, 2, -2, -2, -2, -2])
                 ball_speed_y = random.choice([2, 2, 2, 2, -2, -2, -2, -2])
+
 
             # Handle ball collisions with paddles
             if ball_x <= paddle_width and ball_y + ball_height >= left_paddle_y and ball_y <= left_paddle_y + paddle_height:
@@ -113,7 +127,7 @@ class PlayScene:
             window.blit(right_score_text, (width // 4 * 3, 10))
 
             # Update display
-            pygame.display.update()
+            self.display.update()
 
             # Tick clock
             clock.tick(60)
