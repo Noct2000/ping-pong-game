@@ -30,7 +30,7 @@ class OverGameScene:
 
         # Set max_score_caption
         if winner:
-            max_score_caption = font27.render(f"Winner is {winner['name']} with score: {winner['score']}", True, white)
+            max_score_caption = font27.render(f"Winner is {winner.name} with score: {winner.score}", True, white)
         else:
             max_score_caption = font27.render("No winner", True, white)
 

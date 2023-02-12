@@ -1,11 +1,12 @@
 import pygame
 import random
+from winner import Winner
 
 
 class PlayScene:
     def __init__(self, display):
         self.display = display
-        self.winner = {"name": "", "score": 0}
+        self.winner = None
 
     def show(self, max_score, is_exited):
         # Check exit menu option
@@ -54,11 +55,9 @@ class PlayScene:
                 if event.type == pygame.QUIT:
                     running = False
                     if right_score > left_score:
-                        self.winner["name"] = "right player"
-                        self.winner["score"] = right_score
+                        self.winner = Winner("right player", right_score)
                     elif left_score > right_score:
-                        self.winner["name"] = "left player"
-                        self.winner["score"] = left_score
+                        self.winner = Winner("left player", left_score)
                     else:
                         self.winner = None
 
@@ -93,9 +92,8 @@ class PlayScene:
             if ball_x <= 0:
                 right_score += 1
                 if right_score - max_score == 0:
-                    self.winner["name"] = "right player"
-                    self.winner["score"] = right_score
-                    return
+                    self.winner = Winner("right player", right_score)
+                    running = False
                 ball_x = (width - ball_width) // 2
                 ball_y = (height - ball_height) // 2
                 ball_speed_x = random.choice([2, 2, 2, 2, -2, -2, -2, -2])
@@ -103,9 +101,8 @@ class PlayScene:
             if ball_x + ball_width >= width:
                 left_score += 1
                 if left_score - max_score == 0:
-                    self.winner["name"] = "left player"
-                    self.winner["score"] = left_score
-                    return
+                    self.winner = Winner("left player", left_score)
+                    running = False
                 ball_x = (width - ball_width) // 2
                 ball_y = (height - ball_height) // 2
                 ball_speed_x = random.choice([2, 2, 2, 2, -2, -2, -2, -2])
