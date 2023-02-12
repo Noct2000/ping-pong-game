@@ -1,18 +1,18 @@
 import pygame
 
 
-class StartMenu:
+class OverGameScene:
     def __init__(self, display):
         self.display = display
         self.isExited = False
         self.maxScore = -1
 
-    def show(self):
+    def show(self, winner):
         # Set window size and title
         width = 600
         height = 300
         window = self.display.set_mode((width, height))
-        self.display.set_caption("Start Menu")
+        self.display.set_caption("Ping-Pong game")
 
         # Define colors
         black = (0, 0, 0)
@@ -24,14 +24,17 @@ class StartMenu:
         font27 = pygame.font.Font(None, 27)
 
         # Set max_score_caption
-        max_score_caption = font27.render("Max score (set invalid number if you want infinite game): ", True, white)
+        max_score_caption = font27.render(f"Winner is {winner['name']} with score: {winner['score']}", True, white)
 
-        # Initialize input field for max score
-        max_score_input = pygame.Rect(100, 100, 200, 32)
-        max_score = ""
+        # Get the rectangle representing the size of the text surface
+        text_rect = max_score_caption.get_rect()
+
+        # Set the central x-position of the text
+        text_rect.centerx = window.get_rect().centerx
+        text_rect.centery = 100
 
         # Initialize menu options
-        options = ["Start", "Exit"]
+        options = ["Restart", "Exit"]
         selected_option = 0
 
         # Main loop
@@ -43,16 +46,8 @@ class StartMenu:
                     self.isExited = True
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
-                        if options[selected_option] == "Start":
-                            # Start game if the user has entered a max score
-                            if max_score:
-                                try:
-                                    self.maxScore = int(max_score)
-                                    return
-                                except ValueError:
-                                    print("Please enter a valid integer for max score")
-                            else:
-                                return
+                        if options[selected_option] == "Restart":
+                            running = False
                         elif options[selected_option] == "Exit":
                             running = False
                             self.isExited = True
@@ -60,34 +55,23 @@ class StartMenu:
                         selected_option = (selected_option - 1) % len(options)
                     elif event.key == pygame.K_DOWN:
                         selected_option = (selected_option + 1) % len(options)
-                    elif event.key == pygame.K_BACKSPACE:
-                        max_score = max_score[:-1]
-                    else:
-                        max_score += event.unicode
 
             # Clear the screen
             window.fill(black)
 
-            # Draw the input field for max score
-            pygame.draw.rect(window, white, max_score_input, 2)
-            pygame.draw.rect(window, black, max_score_input.inflate(-2, -2))
-
-            # Render the text for the max score
-            max_score_text = font32.render(max_score, True, white)
-            window.blit(max_score_text, (100, 100))
-
             # Render the caption for the max score
-            window.blit(max_score_caption, (100, 75))
+            window.blit(max_score_caption, text_rect)
 
             # Draw the menu options
             for i, option in enumerate(options):
                 text = font32.render(option, True, white)
                 if i == selected_option:
-                    pygame.draw.rect(window, selected_color, (100, 150 + i * 35, 200, 35))
-                    window.blit(text, (100, 150 + i * 50))
+                    text_width = 100
+                    pygame.draw.rect(window, selected_color, (text_rect.centerx - text_width, 150 + i * 35, 200, 35))
+                    window.blit(text, (text_rect.centerx - text_width, 150 + i * 50))
                 else:
                     pygame.draw.rect(window, black, (100, 150 + i * 35, 200, 35))
-                    window.blit(text, (100, 150 + i * 50))
+                    window.blit(text, (text_rect.centerx - text_width, 150 + i * 50))
 
             # Update the screen
             self.display.update()
