@@ -2,18 +2,18 @@
 ### Description
 You have three scenes:
 * Start menu
-* Playground
+* Play scene
 * Restart menu
 
 #### Start menu
-In the start menu you can choose max score game. 
-If you set invalid value or leave it is empty game will be infinite.
+In the start menu, you can choose a maximum score for the game. 
+If you set an invalid value or leave it empty, the game will have no limit and will be infinite.
 
-#### Playground
-In the playground you can play for two players (left player and right player).
+#### Play scene
+In the play scene you can play for two players (left player and right player).
 For moving right paddle use UP/DOWN arrows.
 For moving left paddle use W/S keys.
-If you close playground using X button, then winner will be setup according to score.
+If you close play scene using X button, then winner will be setup according to score.
 
 #### Restart menu
 Restart menu consists text about winner and two options: Restart and Exit.
