@@ -1,4 +1,5 @@
-./venv
+venv
 *.spec
-./dist
-./build
+dist
+build
+.idea
