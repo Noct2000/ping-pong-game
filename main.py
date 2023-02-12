@@ -18,7 +18,7 @@ is_exited = False
 while not is_exited:
     start_menu.show()
     play_scene.show(start_menu.maxScore, start_menu.isExited)
-    over_game_scene.show(play_scene.winner)
+    over_game_scene.show(play_scene.winner, start_menu.isExited)
     is_exited = over_game_scene.isExited
 
 

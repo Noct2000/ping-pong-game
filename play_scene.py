@@ -53,6 +53,14 @@ class PlayScene:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                    if right_score > left_score:
+                        self.winner["name"] = "right player"
+                        self.winner["score"] = right_score
+                    elif left_score > right_score:
+                        self.winner["name"] = "left player"
+                        self.winner["score"] = left_score
+                    else:
+                        self.winner = None
 
             # Handle paddle movements
             keys = pygame.key.get_pressed()
@@ -102,7 +110,6 @@ class PlayScene:
                 ball_y = (height - ball_height) // 2
                 ball_speed_x = random.choice([2, 2, 2, 2, -2, -2, -2, -2])
                 ball_speed_y = random.choice([2, 2, 2, 2, -2, -2, -2, -2])
-
 
             # Handle ball collisions with paddles
             if ball_x <= paddle_width and ball_y + ball_height >= left_paddle_y and ball_y <= left_paddle_y + paddle_height:

@@ -7,7 +7,12 @@ class OverGameScene:
         self.isExited = False
         self.maxScore = -1
 
-    def show(self, winner):
+    def show(self, winner, is_exited):
+        # If player exit from start menu
+        if is_exited:
+            self.isExited = True
+            return
+
         # Set window size and title
         width = 600
         height = 300
@@ -24,7 +29,10 @@ class OverGameScene:
         font27 = pygame.font.Font(None, 27)
 
         # Set max_score_caption
-        max_score_caption = font27.render(f"Winner is {winner['name']} with score: {winner['score']}", True, white)
+        if winner:
+            max_score_caption = font27.render(f"Winner is {winner['name']} with score: {winner['score']}", True, white)
+        else:
+            max_score_caption = font27.render("No winner", True, white)
 
         # Get the rectangle representing the size of the text surface
         text_rect = max_score_caption.get_rect()

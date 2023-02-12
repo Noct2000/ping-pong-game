@@ -48,11 +48,11 @@ class StartMenu:
                             if max_score:
                                 try:
                                     self.maxScore = int(max_score)
-                                    return
+                                    running = False
                                 except ValueError:
                                     print("Please enter a valid integer for max score")
                             else:
-                                return
+                                running = False
                         elif options[selected_option] == "Exit":
                             running = False
                             self.isExited = True
